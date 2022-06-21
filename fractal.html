@@ -43,15 +43,21 @@
 
 <head>
   <meta charset="utf-8" />
-  <title>Pozadí</title>
+  <title>Fractal</title>
 </head>
 
 <body>
-  <input id="forward" type="button" value="Forward" onclick="stepForward();" />
-  <input id="play" type="button" value="Play" onclick="play();" />
-  <input id="backward" type="button" value="Backward" onclick="stepBackward();" />
-  <input type="number" id="state" aria-label="Position" name="state" min=0 value=0 />
-  <svg id="svg" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1024" width="1024"></svg>
+  <div>
+    <input id="forward" type="button" value="Forward" onclick="stepForward();" />
+    <input id="backward" type="button" value="Backward" onclick="stepBackward();" />
+  </div>
+  <div>
+    <input id="play" type="button" value="Play" onclick="play();" />
+    <input type="number" id="state" aria-label="Position" name="state" min=0 value=0 />
+  </div>
+  <div>
+    <svg id="svg" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1" width="1"></svg>
+  </div>
 
 </body>
 <script type="text/javascript" src="fractal.js"></script>

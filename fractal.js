@@ -4,6 +4,9 @@ init()
 
 function init() {
   var svg = document.getElementById('svg');
+  console.log(document.height)
+  svg.setAttribute("height", document.documentElement.scrollWidth / 1.25)
+  svg.setAttribute("width", document.documentElement.scrollHeight / 1.25)
   size = svg.scrollWidth
   var x = y = size / 2
   var radius = size / 4 / Math.sqrt(2.5)
