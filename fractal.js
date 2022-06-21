@@ -27,7 +27,7 @@ function removeShapes() {
   es = [...document.getElementsByClassName(tag)]
   var svg = document.getElementById('svg');
   es.forEach(element => {
-    svg.removeChild(element)    
+    svg.removeChild(element)
   });
 }
 
