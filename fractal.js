@@ -1,14 +1,31 @@
-function removeShape(e) {
+var nextTag = 0
+// init()
+
+function init() {
   var svg = document.getElementById('svg');
-  svg.removeChild(e)
+  width = svg.scrollWidth
+  height = svg.scrollHeight
+  newShape(width / 2, height / 2, (width + height) / 4, 0, 0)
 }
 
-function addShape(tag, id) {
+function removeShapes() {
+  nextTag -= 1
+  var tag = nextTag
+  es = document.getElementsByClassName(tag)
+  var svg = document.getElementById('svg');
+  for (let e of es) {
+    svg.removeChild(e)
+  }
+}
+
+function addShapes() {
+  var tag = nextTag
+  nextTag += 1
   var svg = document.getElementById('svg');
   x = randint(svg.scrollWidth)
   y = randint(svg.scrollHeight)
   size = randint(100)
-  var element = newShape(x, y, size, tag, id);
+  var element = newShape(x, y, size, tag, tag);
   // cx="10" cy="10" r="5" stroke="black" stroke-width="1" fill="red" 
   svg.appendChild(element);
   console.log(svg);
@@ -29,21 +46,19 @@ function newShape(x, y, size, tag, id) {
 }
 
 function stepForward() {
+  addShapes()
   state = document.getElementById("state")
-  addShape(parseInt(state.value), state.nextId)
-  state.setAttribute("value", parseInt(state.value) + 1)
+  var value = Math.max(nextTag, parseInt(state.value))
+  state.setAttribute("value", value)
 }
+
 function stepBackward() {
+  removeShapes();
   state = document.getElementById("state")
-  index = parseInt(state.value)
-  if (index <= 0) {
-    return
-  }
-  es = document.getElementsByClassName(index - 1)
-  for (let e of es) {
-    removeShape(e);
-  }
-  state.setAttribute("value", index - 1)
+  var value = Math.min(nextTag, parseInt(state.value))
+  state.setAttribute("value", value)
 }
+
 function play() {
+  setInterval(stepForward, 1000)
 }
