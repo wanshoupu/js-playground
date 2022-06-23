@@ -1,5 +1,4 @@
-var nextTag = 1
-var nextGen = []
+var generations = []
 init()
 
 function init() {
@@ -13,20 +12,16 @@ function init() {
   var element = newShape(size / 2, size / 2, radius, 0, 0)
   svg.appendChild(element)
 
-  nextGen = [
+  generations.push([
     { parent: [x, y], delta: [0, -radius] },
     { parent: [x, y], delta: [0, radius] },
     { parent: [x, y], delta: [-radius, 0] },
     { parent: [x, y], delta: [radius, 0] },
-  ];
+  ]);
 }
 
 function removeShapes() {
-  if (nextTag <= 0) {
-    return
-  }
-  nextTag -= 1
-  var tag = nextTag
+  var tag = generations.length
   es = [...document.getElementsByClassName(tag)]
   var svg = document.getElementById('svg');
   es.forEach(element => {
@@ -34,13 +29,11 @@ function removeShapes() {
   });
 }
 
-function addShapes() {
-  var tag = nextTag
-  nextTag += 1
+function addShapes(prevGen, tag) {
   var svg = document.getElementById('svg');
 
   var newGen = []
-  for (const spec of nextGen) {
+  for (const spec of prevGen) {
     let parent = spec["parent"]
     let [dx, dy] = spec["delta"]
     let radius = Math.abs(dx + dy) / 2
@@ -54,8 +47,8 @@ function addShapes() {
     for (const c of cs) {
       newGen.push(c)
     }
-    nextGen = newGen
   }
+  generations.push(newGen)
 }
 
 function genDeltas(dx, dy) {
@@ -85,17 +78,22 @@ function newShape(x, y, size, tag, id) {
 }
 
 function stepForward() {
-  addShapes()
+  var prevGen = generations[generations.length - 1]
+  addShapes(prevGen, generations.length)
   state = document.getElementById("state")
-  var value = Math.max(nextTag, parseInt(state.value))
+  var value = Math.max(generations.length, parseInt(state.value))
   state.setAttribute("value", value)
 }
 
 function stepBackward() {
   removeShapes();
   state = document.getElementById("state")
-  var value = Math.min(nextTag, parseInt(state.value))
+  var value = Math.min(generations.length, parseInt(state.value))
   state.setAttribute("value", value)
+  generations.pop()
+  if (generations.length == 0) {
+    init()
+  }
 }
 
 function play() {
