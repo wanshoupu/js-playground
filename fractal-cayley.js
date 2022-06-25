@@ -20,6 +20,10 @@ function init() {
   ]);
 }
 
+function updateConfig(){
+
+}
+
 function removeShapes() {
   var tag = generations.length
   es = [...document.getElementsByClassName(tag)]
@@ -81,15 +85,13 @@ function stepForward() {
   var prevGen = generations[generations.length - 1]
   addShapes(prevGen, generations.length)
   state = document.getElementById("state")
-  var value = Math.max(generations.length, parseInt(state.value))
-  state.setAttribute("value", value)
+  state.setAttribute("value", generations.length)
 }
 
 function stepBackward() {
   removeShapes();
   state = document.getElementById("state")
-  var value = Math.min(generations.length, parseInt(state.value))
-  state.setAttribute("value", value)
+  state.setAttribute("value", generations.length)
   generations.pop()
   if (generations.length == 0) {
     init()
