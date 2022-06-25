@@ -1,4 +1,4 @@
-var angle = 80
+var angle = 45
 var generations = []
 init()
 
@@ -61,14 +61,16 @@ function genPeripherals(spec) {
   let rightSide = side * Math.cos(toRadians(angle));
   let leftRotation = [m + 1, n]
   let rightRotation = [m, n + 1]
-  let leftRadians = toRadians(leftRotation[1] * (90 - angle) - leftRotation[0] * angle)
+  let leftRadians = toRadians(leftRotation[1] * angle - leftRotation[0] * (90 - angle))
   let rightRadians = toRadians(rightRotation[1] * angle - rightRotation[0] * (90 - angle))
-  let leftPos = [x - leftSide * Math.sin(leftRadians), y + leftSide * Math.cos(leftRadians)]
+  let leftDx = leftSide * Math.sin(leftRadians)
+  let leftDy = -leftSide * Math.cos(leftRadians)
+  let leftPos = [x + leftDx, y + leftDy]
   let rightR = leftSide + rightSide
   let rightPos = [x + rightR * Math.sin(rightRadians), y - rightR * Math.cos(rightRadians)]
   return [
     { pos: leftPos, rotation: leftRotation, side: leftSide },
-    // { pos: rightPos, rotation: rightRotation, side: rightSide },
+    { pos: rightPos, rotation: rightRotation, side: rightSide },
   ]
 }
 
